@@ -23,7 +23,7 @@ public class UserDto {
     private String email;
     private String password;
     private String phoneNumber;
-    private UserRole role;
+    private String role;
     private List<OrderItemDto> orderItemDtoList;
     private AddressDto address;
     private LocalDateTime createdAt;
