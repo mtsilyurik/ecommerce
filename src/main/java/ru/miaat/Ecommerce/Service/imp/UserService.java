@@ -39,19 +39,27 @@ public class UserService implements ru.miaat.Ecommerce.Service.interf.UserServic
 
     @Override
     public Response registerUser(UserDto u) {
+        log.info("Registering user {}", u.getEmail());
         UserRole role = UserRole.USER;
+
         if (u.getRole() != null && u.getRole().equalsIgnoreCase("admin")) {
             role = UserRole.ADMIN;
+            log.info("With role {}", u.getRole());
         }
+
 
         User user = User.builder()
                 .email(u.getEmail())
                 .name(u.getName())
                 .password(passwordEncoder.encode(u.getPassword()))
-                .password(u.getPassword())
+                .phoneNumber(u.getPhoneNumber())
                 .role(role)
                 .build();
+        log.info("Created new register user with id {}", user.getId());
+
         User savedUser = userRepository.save(user);
+        log.info("Created new register user with id {}", user.getId());
+
         UserDto userDto = entityDtoMapper.mapUserToUserDto(savedUser);
         return Response.builder()
                 .status(200)
@@ -66,13 +74,14 @@ public class UserService implements ru.miaat.Ecommerce.Service.interf.UserServic
         User user = userRepository.findByEmail(loginRequest.getEmail()).orElseThrow(
                 () ->new NotFoundException("User not found")
         );
+        log.info("Init login {}", loginRequest.getEmail());
 
         if(!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
             throw new InvalidCredentialsException("Password does not match");
         }
 
         String token = jwtUtils.createToken(user);
-
+        log.info("Token created by user {}", user.getEmail());
         return Response.builder()
                 .status(200)
                 .message("Success")
@@ -106,7 +115,7 @@ public class UserService implements ru.miaat.Ecommerce.Service.interf.UserServic
     }
 
     @Override
-    public Response getUserInfoAndOrderHistory(User user) {
+    public Response getUserInfoAndOrderHistory() {
 
         UserDto userDto = entityDtoMapper.mapUserToUserDtoWithAddressAndOrders(getLogInUser());
 

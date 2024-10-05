@@ -3,17 +3,15 @@ package ru.miaat.Ecommerce.Entity;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.boot.autoconfigure.amqp.RabbitConnectionDetails;
 import ru.miaat.Ecommerce.Enum.UserRole;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name="users")
 @Builder

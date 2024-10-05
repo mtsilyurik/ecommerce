@@ -11,6 +11,7 @@ import ru.miaat.Ecommerce.Mapper.EntityDtoMapper;
 import ru.miaat.Ecommerce.Repository.CategoryRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -65,13 +66,14 @@ public class CategoryService implements ru.miaat.Ecommerce.Service.interf.Catego
 
     @Override
     public Response getAllCategories() {
-        List<CategoryDto> categories = categoryRepository.findAll().stream()
+        List<Category> categories = categoryRepository.findAll();
+        List<CategoryDto> categoryDtoList = categories.stream()
                 .map(entityDtoMapper::mapCategoryToCategoryDto)
                 .toList();
-        return Response.builder()
+
+        return  Response.builder()
                 .status(200)
-                .message("Success")
-                .categoryList(categories)
+                .categoryList(categoryDtoList)
                 .build();
     }
 

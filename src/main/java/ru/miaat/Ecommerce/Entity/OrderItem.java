@@ -2,13 +2,16 @@ package ru.miaat.Ecommerce.Entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import ru.miaat.Ecommerce.Enum.OrderStatus;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Table(name="order_items")
 public class OrderItem {
     @Id

@@ -1,10 +1,13 @@
 package ru.miaat.Ecommerce.Dto;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class OrderItemRequest {
-    private int productId;
+    private Long productId;
     private int quantity;
 
 }

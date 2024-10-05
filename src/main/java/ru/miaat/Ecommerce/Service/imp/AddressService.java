@@ -6,6 +6,7 @@ import ru.miaat.Ecommerce.Dto.AddressDto;
 import ru.miaat.Ecommerce.Dto.Response;
 import ru.miaat.Ecommerce.Entity.Address;
 import ru.miaat.Ecommerce.Entity.User;
+import ru.miaat.Ecommerce.Exception.NotFoundException;
 import ru.miaat.Ecommerce.Repository.AddressRepository;
 
 @Service
@@ -17,13 +18,14 @@ public class AddressService implements ru.miaat.Ecommerce.Service.interf.Address
     private final UserService userService;
 
     @Override
-    public Response saveAndUpdateAddress(AddressDto address) {
+    public Response saveAndUpdateAddress(AddressDto address, Long id) {
         User user = userService.getLogInUser();
         Address userAddress = user.getAddress();
 
         if(userAddress == null) {
             userAddress = new Address();
             userAddress.setUser(user);
+            user.setAddress(userAddress);
         }
 
         if(address.getStreet() != null) userAddress.setStreet(address.getStreet());
@@ -41,5 +43,11 @@ public class AddressService implements ru.miaat.Ecommerce.Service.interf.Address
                 .status(200)
                 .message(message)
                 .build();
+    }
+
+
+    @Override
+    public Response deleteAddress(Long id) {
+        return null;
     }
 }

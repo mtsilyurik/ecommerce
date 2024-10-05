@@ -2,13 +2,15 @@ package ru.miaat.Ecommerce.Entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-import ru.miaat.Ecommerce.Entity.Product;
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name="categories")
 public class Category {

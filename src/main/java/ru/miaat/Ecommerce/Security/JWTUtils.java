@@ -30,6 +30,7 @@ public class JWTUtils {
     @PostConstruct
     private void init() {
         //Init secretKey after building the bean
+        log.info("JWTUtils init() called");
         byte[] keyBytes = secureString.getBytes(StandardCharsets.UTF_8);
         this.secretKey = new SecretKeySpec(keyBytes, "HmacSHA256");
     }
@@ -37,11 +38,13 @@ public class JWTUtils {
 
     // Generating token
     public String createToken(User user) {
+        log.info("Token creation called by {}", user.getEmail());
         String userEmail = user.getEmail();
         return generateToken(userEmail);
     }
 
     public String generateToken(String email) {
+        log.info("Token generation called by {}", email);
         return Jwts.builder()
                 .subject(email)
                 .issuedAt(new Date(System.currentTimeMillis()))

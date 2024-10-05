@@ -41,11 +41,6 @@ public class EntityDtoMapper {
 
         categoryDto.setId(c.getId());
         categoryDto.setName(c.getName());
-        categoryDto.setProducts(c.getProducts().stream()
-                .map(this::mapProductToProductDto)
-                .toList()
-        );
-
         return categoryDto;
     }
 
@@ -68,9 +63,6 @@ public class EntityDtoMapper {
         productDto.setDescription(p.getDescription());
         productDto.setPrice(p.getPrice());
         productDto.setImageUrl(p.getImageUrl());
-        productDto.setCreated(p.getCreatedAt());
-        productDto.setCategory(mapCategoryToCategoryDto(p.getCategory()));
-        productDto.setCreated(p.getCreatedAt());
 
         return productDto;
     }

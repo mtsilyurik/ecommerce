@@ -52,7 +52,7 @@ public class AwsS3Service {
             s3Client.putObject(request);
 
             // getting an saved file URL
-            return "https://" + bucketName + "s3.eu-north-1.amazonaws.com" + "/" + fileName;
+            return "https://" + bucketName + ".s3.eu-north-1.amazonaws.com" + "/" + fileName;
 
         } catch (IOException e){
             log.error(e.getMessage());
