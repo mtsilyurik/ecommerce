@@ -33,12 +33,18 @@ public class ProuctService implements ru.miaat.Ecommerce.Service.interf.ProductS
     private final AwsS3Service awsS3Service;
 
     @Override
-    public Response createProduct(Long categoryId, MultipartFile photo, String name, String description, BigDecimal price) {
-        Category category = categoryRepository.findById(categoryId)
+    public Response createProduct(String categoryId, MultipartFile photo, String name, String description, BigDecimal price) {
+        Category category = categoryRepository.findById(Long.parseLong(categoryId))
                 .orElseThrow(
                         () -> new NotFoundException("Category " + categoryId + " not found")
                 );
-        String imageUrl = awsS3Service.saveImageToS3(photo);
+        String imageUrl = "";
+        try {
+            imageUrl = awsS3Service.saveImageToS3(photo);
+        } catch (Exception e) {
+
+        }
+
 
         Product product = new Product();
         product.setCategory(category);
@@ -46,6 +52,8 @@ public class ProuctService implements ru.miaat.Ecommerce.Service.interf.ProductS
         product.setDescription(description);
         product.setPrice(price);
         product.setImageUrl(imageUrl);
+
+
         productRepository.save(product);
         return Response.builder()
                 .status(200)

@@ -1,6 +1,7 @@
 package ru.miaat.Ecommerce.Controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.coyote.BadRequestException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,6 +17,7 @@ import java.math.BigDecimal;
 @RestController
 @RequestMapping("/product")
 @RequiredArgsConstructor
+@Slf4j
 public class ProductController {
 
     private final ProductService productService;
@@ -23,15 +25,17 @@ public class ProductController {
     @PostMapping("/create")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Response> createProduct(
-            @RequestParam Long categoryId,
-            @RequestParam MultipartFile image,
+            @RequestParam String categoryId,
+            @RequestParam(required = false) MultipartFile image,
             @RequestParam String name,
             @RequestParam String description,
             @RequestParam BigDecimal price)
     {
-        if(categoryId == null || image.isEmpty() || name.isBlank() || description.isBlank() || price == null){
+        if(categoryId == null || name.isBlank() || description.isBlank() || price == null){
             throw new InvalidCredentialsException("All Fields are required");
         }
+
+        log.warn(categoryId);
 
         return ResponseEntity.ok(productService.createProduct(categoryId, image, name, description, price));
     }

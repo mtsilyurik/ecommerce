@@ -7,7 +7,7 @@ import ru.miaat.Ecommerce.Entity.Product;
 import java.math.BigDecimal;
 
 public interface ProductService {
-    Response createProduct(Long categoryId, MultipartFile photo, String name, String description, BigDecimal price);
+    Response createProduct(String categoryId, MultipartFile photo, String name, String description, BigDecimal price);
 
     Response deleteProduct(Long id);
 
