@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.miaat.Ecommerce.Dto.Response;
 import ru.miaat.Ecommerce.Service.interf.UserService;
@@ -26,6 +27,15 @@ public class UserController {
     public ResponseEntity<Response> getUserInfoAndOrderHistory() {
         return ResponseEntity.ok(userService.getUserInfoAndOrderHistory());
     }
+
+    @GetMapping("/get-all-by-slice")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<Response> getAllUsersBySlice(
+            @RequestParam int pageNumber
+    ) {
+        return ResponseEntity.ok(userService.getAllBySlice(pageNumber));
+    }
+
 
 
 }

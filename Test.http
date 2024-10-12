@@ -1,0 +1,5 @@
+### get-all
+GET http://localhost:2424/product/get-all
+
+### get-all-by-pages
+GET http://localhost:2424/product/get-all-by-pages?pageNumber=0
