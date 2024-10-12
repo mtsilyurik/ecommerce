@@ -5,14 +5,19 @@ import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.miaat.Ecommerce.Dto.LoginRequest;
+import ru.miaat.Ecommerce.Dto.ProductDto;
 import ru.miaat.Ecommerce.Dto.Response;
 import ru.miaat.Ecommerce.Dto.UserDto;
+import ru.miaat.Ecommerce.Entity.Product;
 import ru.miaat.Ecommerce.Entity.User;
 import ru.miaat.Ecommerce.Enum.UserRole;
 import ru.miaat.Ecommerce.Exception.InvalidCredentialsException;
@@ -125,5 +130,25 @@ public class UserService implements ru.miaat.Ecommerce.Service.interf.UserServic
                 .user(userDto)
                 .build();
 
+    }
+
+    @Override
+    public Response getAllBySlice(int pageNumber) {
+        final int elNumber = 5;
+        Slice<User> slice = userRepository
+                .findAll(PageRequest.of(
+                                pageNumber,
+                                elNumber,
+                                Sort.by(Sort.Direction.ASC, "id")
+                        )
+                );
+        Slice<UserDto> sliceDto = slice.map(entityDtoMapper::mapUserToUserDto);
+
+        return Response.builder()
+                .status(200)
+                .message("Success")
+                .pageNumber(pageNumber)
+                .usersPage(sliceDto)
+                .build();
     }
 }

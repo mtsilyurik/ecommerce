@@ -13,4 +13,5 @@ public interface UserService {
     Response getAllUsers();
     User getLogInUser();
     Response getUserInfoAndOrderHistory();
+    Response getAllBySlice(int pageNumber);
 }

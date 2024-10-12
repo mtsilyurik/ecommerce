@@ -37,6 +37,7 @@ public class Response {
 
     private UserDto user;
     private List<UserDto> userList;
+    private Slice<UserDto> usersPage;
 
     private CategoryDto category;
     private List<CategoryDto> categoryList;
