@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Slice;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -24,12 +26,14 @@ public class Response {
 
     private int totalPage;
     private long totalElements;
+    private int pageNumber;
 
     private AddressDto address;
     private List<AddressDto> addressList;
 
     private  ProductDto product;
     private List<ProductDto> products;
+    private Slice<ProductDto> productsPage;
 
     private UserDto user;
     private List<UserDto> userList;

@@ -3,6 +3,9 @@ package ru.miaat.Ecommerce.Service.imp;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,10 +17,12 @@ import ru.miaat.Ecommerce.Exception.NotFoundException;
 import ru.miaat.Ecommerce.Mapper.EntityDtoMapper;
 import ru.miaat.Ecommerce.Repository.CategoryRepository;
 import ru.miaat.Ecommerce.Repository.ProductRepository;
+import ru.miaat.Ecommerce.Repository.UserRepository;
 import ru.miaat.Ecommerce.Service.AwsS3Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -31,6 +36,7 @@ public class ProuctService implements ru.miaat.Ecommerce.Service.interf.ProductS
     private final EntityDtoMapper entityDtoMapper;
 
     private final AwsS3Service awsS3Service;
+    private final UserRepository userRepository;
 
     @Override
     public Response createProduct(Long categoryId, MultipartFile photo, String name, String description, BigDecimal price) {
@@ -176,6 +182,26 @@ public class ProuctService implements ru.miaat.Ecommerce.Service.interf.ProductS
                 .status(200)
                 .message("Success")
                 .products(products)
+                .build();
+    }
+
+    @Override
+    public Response getAllBySlice(int pageNumber) {
+        final int elNumber = 5;
+        Slice<Product> slice = productRepository
+                .findAll(PageRequest.of(
+                        pageNumber,
+                        elNumber,
+                        Sort.by(Sort.Direction.ASC, "id")
+                        )
+                );
+        Slice<ProductDto> sliceDto = slice.map(entityDtoMapper::mapProductToProductDto);
+
+        return Response.builder()
+                .status(200)
+                .message("Success")
+                .pageNumber(pageNumber)
+                .productsPage(sliceDto)
                 .build();
     }
 }

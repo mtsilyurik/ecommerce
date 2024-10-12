@@ -75,4 +75,11 @@ public class ProductController {
         return ResponseEntity.ok(productService.searchProduct(searchValue));
     }
 
+    @GetMapping("/get-all-by-pages")
+    public ResponseEntity<Response> getAllProductsByPages(
+            @RequestParam int pageNumber)
+    {
+        return ResponseEntity.ok(productService.getAllBySlice(pageNumber));
+    }
+
 }
