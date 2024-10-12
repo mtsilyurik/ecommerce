@@ -11,6 +11,8 @@ import java.math.BigDecimal;
 public interface ProductService {
     Response createProduct(String categoryId, MultipartFile photo, String name, String description, BigDecimal price);
 
+    Response createProductDto(ProductDto productDto);
+
     Response deleteProduct(Long id);
 
     Response updateProduct(Long categoryId, Long productId, MultipartFile photo, String name, String description, BigDecimal price);

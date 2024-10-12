@@ -68,6 +68,33 @@ public class ProuctService implements ru.miaat.Ecommerce.Service.interf.ProductS
     }
 
     @Override
+    public Response createProductDto(ProductDto productDto) {
+        if (productDto == null) {
+            return Response.builder()
+                    .status(400)
+                    .message("Product is null")
+                    .build();
+        }
+
+        Product p = Product.builder()
+                .name(productDto.getName())
+                .imageUrl(productDto.getImageUrl())
+                .price(productDto.getPrice())
+                .description(productDto.getDescription())
+                .build();
+
+        productRepository.save(p);
+
+        ProductDto pdto = entityDtoMapper.mapProductToProductDto(p);
+
+        return Response.builder()
+                .status(200)
+                .message("Success")
+                .product(pdto)
+                .build();
+    }
+
+    @Override
     public Response deleteProduct(Long id) {
         Product product = productRepository.findById(id)
                 .orElseThrow(

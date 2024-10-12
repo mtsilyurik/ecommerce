@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import ru.miaat.Ecommerce.Dto.ProductDto;
 import ru.miaat.Ecommerce.Dto.Response;
 import ru.miaat.Ecommerce.Entity.Product;
 import ru.miaat.Ecommerce.Exception.InvalidCredentialsException;
@@ -84,6 +85,12 @@ public class ProductController {
             @RequestParam int pageNumber)
     {
         return ResponseEntity.ok(productService.getAllBySlice(pageNumber));
+    }
+
+    @PostMapping
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<Response> addProduct(@RequestBody ProductDto product){
+        return ResponseEntity.ok(productService.createProductDto(product));
     }
 
 }

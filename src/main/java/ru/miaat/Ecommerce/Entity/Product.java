@@ -1,17 +1,18 @@
 package ru.miaat.Ecommerce.Entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
+@Builder
+@RequiredArgsConstructor
 @Entity
 @Table(name = "products")
+@AllArgsConstructor
 public class Product {
 
     @Id
